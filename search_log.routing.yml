@@ -1,0 +1,15 @@
+
+search_log.default_controller_search_log:
+  path: 'admin/config/search/search_log'
+  defaults:
+    _controller: '\Drupal\search_log\Controller\DefaultController::search_log'
+    _title: '[];'
+  requirements:
+    _permission: 'access content'
+search_log.default_controller_search_history:
+  path: '/search_log/search_history'
+  defaults:
+    _controller: '\Drupal\search_log\Controller\DefaultController::search_history'
+    _title: 'search_log'
+  requirements:
+    _permission: 'access content'

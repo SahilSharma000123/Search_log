@@ -1,0 +1,14 @@
+{
+  "name": "drupal/search_log",
+  "type": "drupal-module",
+  "description": "maintains search history",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/search_log",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/search_log",
+    "source": "http://cgit.drupalcode.org/search_log"
+  },
+  "require": { }
+}
