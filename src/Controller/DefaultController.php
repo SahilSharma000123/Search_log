@@ -16,6 +16,7 @@ class DefaultController extends ControllerBase {
    *   Return Hello string.
    */
   public function search_log() {
+
     return [
       '#type' => 'markup',
       '#markup' => $this->t('Implement method: search_log')

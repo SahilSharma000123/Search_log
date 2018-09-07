@@ -33,3 +33,28 @@ function search_log_theme() {
     ],
   ];
 }
+
+function search_log_search_preprocess($text, $langcode = NULL){
+
+ if (!isset($langcode)) {
+  $langcode = \Drupal::languageManager()
+  ->getCurrentLanguage()
+  ->getId();
+
+// print_r($langcode);
+// die();
+}
+
+if($searchterm=(db_query('SELECT searchterm From {search_log}'))){
+  db_update('search_log')
+  ->expression('counter','counter + 1')
+  ->execute();
+}
+else
+{
+  db_insert('search_log')->fields(array('language'=>$langcode,
+    'searchterm'=>$text,''))->execute();
+  drupal_set_message(t($text));
+}
+
+}
