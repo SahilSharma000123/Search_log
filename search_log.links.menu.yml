@@ -1,0 +1,6 @@
+# search_log.admin:
+# title: 'search_log module menu-link'
+# description: 'search_log module menu-link'
+# parent : system.admin_config_development
+# route_name : search_log.default_controller_search_log
+# weight : 100
