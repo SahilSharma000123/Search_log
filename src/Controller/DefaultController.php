@@ -16,33 +16,25 @@ class DefaultController extends ControllerBase {
    *   Return Hello string.
    */
   public function search_log() {
-$query = \Drupal::database()->select('search_log','search_log');
-    $query->fields('search_log',['language'],['qid'],['counter'],['result']);
-    $results = $query->execute()->fetchAll();
+    $query = \Drupal::database()->select('search_log','search_log');
+    $query->fields('search_log',['searchterm','language','qid','counter','result']);
 
-      return [
+    $results = $query->execute()->fetchAll();;
+    foreach ($results as $key => $value) {
+      $row[] = [$value->qid, $value->searchterm,$value->language,$value->counter,$value->result];
+    }
+    return [
       '#type' => 'table',
       '#caption' => $this->t('search_log_list'),
       '#header' => [
         $this->t('qid'),
+        $this->t('searchterm'),
         $this->t('language'),
         $this->t('counter'),
         $this->t('result'),
       ],
-      '#rows' => [
-        'row1' =>[
-         'data' => [
-          '#content' => $this->t('hello world'),$this->t($resutl[0]->language),
-
-        ],
-        'row2' => [
-          'data' => [
-            '#content' => $this->t('second row'),$this->t('rahul')
-          ],
-        ],
-      ]
-    ],
-  ];
+      '#rows' => $row,
+    ];
   }
   /**
    * Search_history.

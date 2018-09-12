@@ -6,7 +6,7 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-
+use Drupal\Core\Form\FormStateInterface;
 /**
  * Implements hook_help().
  */
@@ -14,10 +14,10 @@ function search_log_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the search_log module.
     case 'help.page.search_log':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
-      $output .= '<p>' . t('maintains search history') . '</p>';
-      return $output;
+    $output = '';
+    $output .= '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('maintains search history') . '</p>';
+    return $output;
 
     default:
   }
@@ -34,27 +34,61 @@ function search_log_theme() {
   ];
 }
 
+
+/**
+ * Implements hook search preprocess.
+ */
+
 function search_log_search_preprocess($text, $langcode = NULL){
 
  if (!isset($langcode)) {
   $langcode = \Drupal::languageManager()
   ->getCurrentLanguage()
   ->getId();
+}
 
-// print_r($langcode);
+$query = \Drupal::database()->select('search_log','search_log');
+$query->fields('search_log',['searchterm','counter','language','result','module']);
+$searchTerm = $query->execute()->fetchAll();
+// $Counter=$searchTerm[0]->counter;
+
+// print_r($searchTerm);
 // die();
+foreach ($searchTerm as $key => $value) {
+  if($value->searchterm == $text){
+    $Count = $value->counter;
+    $query =\Drupal::database()->update('search_log');
+    $query->fields(['counter'=>$Count+1]);
+    $query->execute();
+
+
+
+  }
+  else if(empty($searchTerm)){
+    $query= \Drupal::database()->insert('search_log');
+    $query->fields([
+      'searchterm' => $text,
+      
+      'language' => $langcode,
+    ]);
+    $query->execute();
+  }else
+  {
+    $query= \Drupal::database()->insert('search_log');
+    $query->fields([
+      'searchterm' => $text,
+      'counter' => 1,
+      'language' => $langcode,
+    ]);
+    $query->execute();
+    
+  }
+
+
 }
 
-if($searchterm=(db_query('SELECT searchterm From {search_log}'))){
-  db_update('search_log')
-  ->expression('counter','counter + 1')
-  ->execute();
-}
-else
-{
-  db_insert('search_log')->fields(array('language'=>$langcode,
-    'searchterm'=>$text,''))->execute();
-  drupal_set_message(t($text));
-}
+
+
+
 
 }

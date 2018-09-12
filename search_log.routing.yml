@@ -13,3 +13,10 @@ search_log.default_controller_search_history:
     _title: 'search_log'
   requirements:
     _permission: 'access content'
+search_log.settings:
+  path: '/admin/config/search_log/settings'
+  defaults:
+    _title: 'search_log_settings'
+    _form: '\Drupal\search_log\Form\search_log_form'
+  requirements:
+    _permission: 'administer search_log'
