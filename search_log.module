@@ -100,8 +100,7 @@ if($flag==1)
   $query->fields(['counter'=>$Count+1]);
   $query->condition('searchterm',$value=$text);
   $query->execute();
-  print_r('if called');
-  echo "<br>";
+ 
 }
 else if($flag==0)
 {
@@ -112,9 +111,7 @@ else if($flag==0)
     'language' => $langcode,
   ]);
   $query->execute();
-  print_r('else called');
-  echo "<br>";
-  print_r($text);
+ 
 
 }
 
